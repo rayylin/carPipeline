@@ -2,7 +2,7 @@ from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=True)
+    browser = p.chromium.launch(headless=False)
     page = browser.new_page()
 
     # Load the dynamic site
@@ -10,7 +10,7 @@ with sync_playwright() as p:
     page.goto(url)
 
     # Wait for vehicle cards to load
-    page.wait_for_selector('.VehicleCard_card__')
+    page.wait_for_selector("div[class*=VehicleCard]", timeout=60000, state="attached")
 
     # Get page content
     html = page.content()
@@ -18,6 +18,7 @@ with sync_playwright() as p:
 
     # Extract data
     cars = soup.select('.VehicleCard_card__')
+    print(f"Found {len(cars)} car cards")
     for car in cars:
         print(car.get_text(strip=True))
 
