@@ -20,7 +20,7 @@ with sync_playwright() as p:
     page.on("response", handle_response)
 
     # Load the search page
-    url = "https://finder.porsche.com/us/en-US/search?int_ref=carsales&int_medium=email&int_position=show_details&position=10001%2C40.75368539999999%2C-73.9991637%2C50&order=closest&int_id=savedsearch"
+    url = "https://finder.porsche.com/us/en-US/search?position=10001%2C40.75368539999999%2C-73.9991637%2C50"
     page.goto(url)
 
     # Optional: Scroll to trigger more data
