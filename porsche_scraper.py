@@ -1,32 +1,27 @@
-from porsche_scraper import webdriver
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.firefox import GeckoDriverManager
 import time
 import json
 
 def scrape_porsche_finder():
-    # Set up Firefox options
-    firefox_options = Options()
-    firefox_options.add_argument("--headless")
+    # Set up Chrome options
+    options = uc.ChromeOptions()
+    options.headless = True  # Run in headless mode
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1920,1080")
     
-    # Set up driver
-    driver = webdriver.Firefox(
-        service=Service(GeckoDriverManager().install()),
-        options=firefox_options
-    )
+    # Initialize the driver with version_main parameter to match your Chrome version
+    driver = uc.Chrome(options=options, version_main=135)  # Specify your Chrome version (135)
     
-    # Go to the URL
+    # Navigate to the URL
     url = "https://finder.porsche.com/us/en-US/search?position=10001%2C40.75368539999999%2C-73.9991637%2C50"
-    driver.get(url)
     print("Loading page...")
+    driver.get(url)
     
-    # Wait for the car listings to load
     try:
-        # Wait for car tiles to appear
+        # Wait for the car listings to load
         WebDriverWait(driver, 60).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='vehicle-tile']"))
         )
@@ -65,3 +60,72 @@ def scrape_porsche_finder():
 
 if __name__ == "__main__":
     scrape_porsche_finder()
+
+
+# from porsche_scraper import webdriver
+# from selenium.webdriver.firefox.service import Service
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
+# from selenium.webdriver.support import expected_conditions as EC
+# from webdriver_manager.firefox import GeckoDriverManager
+# import time
+# import json
+
+# def scrape_porsche_finder():
+#     # Set up Firefox options
+#     firefox_options = Options()
+#     firefox_options.add_argument("--headless")
+    
+#     # Set up driver
+#     driver = webdriver.Firefox(
+#         service=Service(GeckoDriverManager().install()),
+#         options=firefox_options
+#     )
+    
+#     # Go to the URL
+#     url = "https://finder.porsche.com/us/en-US/search?position=10001%2C40.75368539999999%2C-73.9991637%2C50"
+#     driver.get(url)
+#     print("Loading page...")
+    
+#     # Wait for the car listings to load
+#     try:
+#         # Wait for car tiles to appear
+#         WebDriverWait(driver, 60).until(
+#             EC.presence_of_element_located((By.CSS_SELECTOR, "[data-testid='vehicle-tile']"))
+#         )
+#         print("Page loaded successfully!")
+        
+#         # Give extra time for all elements to fully load
+#         time.sleep(5)
+        
+#         # Get all car listings
+#         car_elements = driver.find_elements(By.CSS_SELECTOR, "[data-testid='vehicle-tile']")
+#         print(f"Found {len(car_elements)} vehicles")
+        
+#         cars_data = []
+#         for car in car_elements:
+#             try:
+#                 # Extract data from each car tile
+#                 title = car.find_element(By.CSS_SELECTOR, "[data-testid='vehicle-title']").text
+#                 price = car.find_element(By.CSS_SELECTOR, "[data-testid='vehicle-price']").text
+#                 details = car.find_element(By.CSS_SELECTOR, "[data-testid='vehicle-summary']").text
+                
+#                 cars_data.append({
+#                     "title": title,
+#                     "price": price,
+#                     "details": details
+#                 })
+#             except Exception as e:
+#                 print(f"Error extracting data from a car listing: {e}")
+        
+#         print(json.dumps(cars_data, indent=2))
+#         return cars_data
+                
+#     except Exception as e:
+#         print(f"Error: {e}")
+#     finally:
+#         driver.quit()
+
+# if __name__ == "__main__":
+#     scrape_porsche_finder()
