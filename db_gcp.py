@@ -1,7 +1,15 @@
+# test connect to gcp
 import pyodbc
 
 conn = pyodbc.connect(
-
+    'DRIVER={ODBC Driver 17 for SQL Server};'
+    'SERVER=34.58.90.139,1433;'
+    'DATABASE=cardb1;'
+    'UID=user2;'
+    'PWD=12345678;'
+    'Encrypt=yes;'
+    'TrustServerCertificate=yes;'
+    'Connection Timeout=30;'
 )
 
 cursor = conn.cursor()
