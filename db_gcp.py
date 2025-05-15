@@ -17,10 +17,13 @@ cursor.execute("""
     INSERT INTO stock (id, date, start, [end], high, low)
     VALUES (?, ?, ?, ?, ?, ?)
 """, ('AAPL', '2025-11-05', 198.53, 198.53, 198.53, 198.53))
+
+conn.commit()
 cursor.execute("SELECT * FROM stock")
 
 for row in cursor.fetchall():
     print(row)
+    print("create done")
 
 cursor.close()
 conn.close()
