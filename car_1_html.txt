@@ -1,1 +1,0 @@
-<a href="https://finder.porsche.com/us/en-US/favorites" aria-label="My saved vehicles, 0 vehicles saved"><div class="iconFlex phn_level-0-icons-module__iconFlex___bXjAx"><phn-p-icon data-ssr="" class="hydrated"></phn-p-icon></div></a>
