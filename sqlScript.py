@@ -12,3 +12,5 @@ insertStock = """
     VALUES (?, ?, ?, ?, ?, ?)
     """ 
 #, ('AAPL', '2025-11-05', 198.53, 198.53, 198.53, 198.53)
+
+selectStock = "SELECT * FROM stock"
