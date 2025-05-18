@@ -1,0 +1,26 @@
+import os
+from google.cloud import bigquery
+import pandas as pd
+
+# Set path to your JSON key file
+
+
+
+# Initialize BigQuery client
+client = bigquery.Client()
+
+# Your query
+query = """
+    SELECT * FROM carpipe.car_data.car
+    LIMIT 10
+"""
+
+# Run query
+query_job = client.query(query)
+results = query_job.result()
+
+# Convert to DataFrame
+df = results.to_dataframe()
+
+# Show the data
+print(df.head())
