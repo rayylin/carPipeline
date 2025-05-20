@@ -16,8 +16,26 @@ from config import eid, pathBigQuery
 os.environ[eid] = pathBigQuery
 
 # Example usage:
-upload_file(
+# upload_file(
+#     bucket_name="image_bucket126",
+#     source_file_path="C:\\Users\\dwade\\Desktop\\carPipeline\\jb.jpg",  # or .pdf
+#     destination_blob_name="uploads/my_image.jpg"
+# )
+
+
+def download_file(bucket_name, blob_name, destination_file_path):
+    """Downloads a file from the bucket."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(blob_name)
+
+    blob.download_to_filename(destination_file_path)
+
+    print(f"Blob {blob_name} downloaded to {destination_file_path}.")
+
+
+download_file(
     bucket_name="image_bucket126",
-    source_file_path="C:\\Users\\dwade\\Desktop\\carPipeline\\jb.jpg",  # or .pdf
-    destination_blob_name="uploads/my_image.jpg"
+    blob_name="uploads/my_image.jpg",  # or .pdf
+    destination_file_path="C:\\Users\\dwade\\Desktop\\carPipeline\\jb1.jpg"
 )
