@@ -15,10 +15,10 @@ import os
 from config import eid, pathBigQuery
 os.environ[eid] = pathBigQuery
 
-# Example usage:
+
 # upload_file(
 #     bucket_name="image_bucket126",
-#     source_file_path="C:\\Users\\dwade\\Desktop\\carPipeline\\jb.jpg",  # or .pdf
+#     source_file_path="C:\\Users\\dwade\\Desktop\\carPipeline\\jb.jpg",  # 
 #     destination_blob_name="uploads/my_image.jpg"
 # )
 
