@@ -126,3 +126,14 @@ print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
 lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
 print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
 pd.Series(lin_rmses).describe()
+
+# Plot for Linear Regression
+plt.figure(figsize=(10, 6))
+plt.scatter(y_test_exp, y_pred_lin_exp, alpha=0.5)
+plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--', lw=2)
+plt.xlabel('Actual Price')
+plt.ylabel('Predicted Price')
+plt.title('Actual vs. Predicted Prices (Linear Regression)')
+plt.show()
+# Insight: The plot shows that the Linear Regression model underestimates high actual prices and has significant prediction errors,indicating
+# it may not capture complex patterns in the data well.
