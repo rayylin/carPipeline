@@ -101,6 +101,20 @@ plt.ylabel('Frequency')
 # Insight: Capping has reduced outliers, with the distribution peaking around 10.5 to 11.
 plt.show()
 
+#
+num_columns = ['car_age', 'log_milage', 'horsepower', 'liters']
+scaler = StandardScaler()
+car[num_columns] = scaler.fit_transform(car[num_columns])
 
+# Final check for NaN values in the entire dataset
+print("NaN values in the dataset before splitting:")
+print(car.isnull().sum().sum())
 
+X_train, X_test, y_train, y_test = train_test_split(car, car_labels_log, test_size=0.2, random_state=42)
+print("Training set shape:", X_train.shape, "Test set shape:", X_test.shape)
 
+lin_reg = LinearRegression()
+lin_reg.fit(X_train, y_train)
+
+y_pred_lin = lin_reg.predict(X_test)
+y_test_exp = np.expm1(y_test)
