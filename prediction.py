@@ -118,3 +118,11 @@ lin_reg.fit(X_train, y_train)
 
 y_pred_lin = lin_reg.predict(X_test)
 y_test_exp = np.expm1(y_test)
+
+y_pred_lin_exp = np.expm1(y_pred_lin)
+lin_rmse = root_mean_squared_error(y_test_exp, y_pred_lin_exp)
+print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
+
+lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
+print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
+pd.Series(lin_rmses).describe()
