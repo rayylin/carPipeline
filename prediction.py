@@ -137,3 +137,18 @@ plt.title('Actual vs. Predicted Prices (Linear Regression)')
 plt.show()
 # Insight: The plot shows that the Linear Regression model underestimates high actual prices and has significant prediction errors,indicating
 # it may not capture complex patterns in the data well.
+
+
+param_dist_rf = {'n_estimators': randint(100, 500), 'max_depth': [None, 10, 20, 30], 'min_samples_split': randint(2, 10)}
+rf_random = RandomizedSearchCV(RandomForestRegressor(random_state=42), param_dist_rf, n_iter=10, cv=5, scoring=rmse_scorer, random_state=42)
+rf_random.fit(X_train, y_train)
+
+best_rf_model = rf_random.best_estimator_
+y_pred_best_rf = best_rf_model.predict(X_test)
+y_pred_best_rf_exp = np.expm1(y_pred_best_rf)
+rf_rmse = root_mean_squared_error(y_test_exp, y_pred_best_rf_exp)
+print("Tuned Random Forest RMSE on test set (original price scale):", rf_rmse)
+
+rf_rmses = -cross_val_score(best_rf_model, X_train, y_train, scoring=rmse_scorer, cv=5)
+print("Tuned Random Forest Cross-Validated RMSE (original price scale):", -np.mean(rf_rmses))
+pd.Series(rf_rmses).describe()
