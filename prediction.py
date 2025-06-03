@@ -9,13 +9,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.impute import SimpleImputer
 #cfrom xgboost import XGBRegressor
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from scipy.stats import randint
-import seaborn as sns
+# import seaborn as sns
 import pandas as pd
 import numpy as np
 
-car = pd.read_csv('/kaggle/input/used-car-price-prediction-dataset/used_cars.csv')
+car = pd.read_csv(r'C:\Users\dwade\Downloads\used_cars.csv')
 
 print(car.info())
 print(car.shape)
@@ -78,13 +78,13 @@ car_cat_encoded = pd.DataFrame(cat_encoder.fit_transform(car[cat_columns]),
 car = car.drop(cat_columns, axis=1)
 car = pd.concat([car, car_cat_encoded], axis=1)
 
-plt.figure(figsize=(10, 6))
-plt.hist(car['log_milage'], bins=50)
-plt.title('Distribution of Log(Milage) After Capping')
-plt.xlabel('Log(Milage)')
-plt.ylabel('Frequency')
-# Insight: Capping has removed extreme values, centering the distribution around 0 to 1.5.
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.hist(car['log_milage'], bins=50)
+# plt.title('Distribution of Log(Milage) After Capping')
+# plt.xlabel('Log(Milage)')
+# plt.ylabel('Frequency')
+# # Insight: Capping has removed extreme values, centering the distribution around 0 to 1.5.
+# plt.show()
 
 
 # Log-transform and cap the target (price)
@@ -93,13 +93,13 @@ lower = car_labels_log.quantile(0.05)
 upper = car_labels_log.quantile(0.95)
 car_labels_log = car_labels_log.clip(lower, upper)
 
-plt.figure(figsize=(10, 6))
-plt.hist(car_labels_log, bins=50)
-plt.title('Distribution of Log(Price) After Capping')
-plt.xlabel('Log(Price)')
-plt.ylabel('Frequency')
-# Insight: Capping has reduced outliers, with the distribution peaking around 10.5 to 11.
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.hist(car_labels_log, bins=50)
+# plt.title('Distribution of Log(Price) After Capping')
+# plt.xlabel('Log(Price)')
+# plt.ylabel('Frequency')
+# # Insight: Capping has reduced outliers, with the distribution peaking around 10.5 to 11.
+# plt.show()
 
 #
 num_columns = ['car_age', 'log_milage', 'horsepower', 'liters']
@@ -128,13 +128,13 @@ print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean
 pd.Series(lin_rmses).describe()
 
 # Plot for Linear Regression
-plt.figure(figsize=(10, 6))
-plt.scatter(y_test_exp, y_pred_lin_exp, alpha=0.5)
-plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--', lw=2)
-plt.xlabel('Actual Price')
-plt.ylabel('Predicted Price')
-plt.title('Actual vs. Predicted Prices (Linear Regression)')
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.scatter(y_test_exp, y_pred_lin_exp, alpha=0.5)
+# plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--', lw=2)
+# plt.xlabel('Actual Price')
+# plt.ylabel('Predicted Price')
+# plt.title('Actual vs. Predicted Prices (Linear Regression)')
+# plt.show()
 # Insight: The plot shows that the Linear Regression model underestimates high actual prices and has significant prediction errors,indicating
 # it may not capture complex patterns in the data well.
 
