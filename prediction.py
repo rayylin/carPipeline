@@ -24,6 +24,11 @@ print(car.shape)
 car['price'] = car['price'].str.replace('$', '').str.replace(',', '').astype(int)
 car['milage'] = car['milage'].str.replace(' mi.', '').str.replace(',', '').astype(int)
 
+
+# Car age
+car['car_age'] = 2025 - car['model_year']
+# Log transform milage
+car['log_milage'] = np.log(car['milage'] + 1)
 model_counts = car['model'].value_counts()
 car['model_grouped'] = car['model'].apply(lambda x: x if model_counts[x] >= 10 else 'Other')
 
