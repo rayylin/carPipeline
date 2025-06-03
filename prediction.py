@@ -36,6 +36,14 @@ car['model_grouped'] = car['model'].apply(lambda x: x if model_counts[x] >= 10 e
 def root_mean_squared_error(y_true, y_pred):
     return np.sqrt(mean_squared_error(y_true, y_pred))
 
+# Custom scorer for original scale
+def rmse_original(y_true, y_pred):
+    y_true_exp = np.expm1(y_true)
+    y_pred_exp = np.expm1(y_pred)
+    return np.sqrt(mean_squared_error(y_true_exp, y_pred_exp))
+
+rmse_scorer = make_scorer(rmse_original, greater_is_better=False)
+
 # Separate target
 car_labels = car['price'].copy()
 car = car.drop('price', axis=1)
@@ -121,19 +129,19 @@ print(car.isnull().sum().sum())
 X_train, X_test, y_train, y_test = train_test_split(car, car_labels_log, test_size=0.2, random_state=42)
 print("Training set shape:", X_train.shape, "Test set shape:", X_test.shape)
 
-lin_reg = LinearRegression()
-lin_reg.fit(X_train, y_train)
+# lin_reg = LinearRegression()
+# lin_reg.fit(X_train, y_train)
 
-y_pred_lin = lin_reg.predict(X_test)
-y_test_exp = np.expm1(y_test)
+# y_pred_lin = lin_reg.predict(X_test)
+# y_test_exp = np.expm1(y_test)
 
-y_pred_lin_exp = np.expm1(y_pred_lin)
-lin_rmse = root_mean_squared_error(y_test_exp, y_pred_lin_exp)
-print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
+# y_pred_lin_exp = np.expm1(y_pred_lin)
+# lin_rmse = root_mean_squared_error(y_test_exp, y_pred_lin_exp)
+# print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
 
-lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
-print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
-pd.Series(lin_rmses).describe()
+# lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
+# print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
+# pd.Series(lin_rmses).describe()
 
 # Plot for Linear Regression
 # plt.figure(figsize=(10, 6))
