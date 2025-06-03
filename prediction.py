@@ -24,6 +24,9 @@ print(car.shape)
 car['price'] = car['price'].str.replace('$', '').str.replace(',', '').astype(int)
 car['milage'] = car['milage'].str.replace(' mi.', '').str.replace(',', '').astype(int)
 
+model_counts = car['model'].value_counts()
+car['model_grouped'] = car['model'].apply(lambda x: x if model_counts[x] >= 10 else 'Other')
+
 # Custom RMSE function
 def root_mean_squared_error(y_true, y_pred):
     return np.sqrt(mean_squared_error(y_true, y_pred))
