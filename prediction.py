@@ -20,17 +20,14 @@ car = pd.read_csv(r'C:\Users\dwade\Downloads\used_cars.csv')
 print(car.info())
 print(car.shape)
 
+print(car.head())
+
+print(car.isnull().sum())
+print(car.describe())
+
 # Clean 'price' and 'milage' columns
 car['price'] = car['price'].str.replace('$', '').str.replace(',', '').astype(int)
 car['milage'] = car['milage'].str.replace(' mi.', '').str.replace(',', '').astype(int)
-
-
-# Car age
-car['car_age'] = 2025 - car['model_year']
-# Log transform milage
-car['log_milage'] = np.log(car['milage'] + 1)
-model_counts = car['model'].value_counts()
-car['model_grouped'] = car['model'].apply(lambda x: x if model_counts[x] >= 10 else 'Other')
 
 # Custom RMSE function
 def root_mean_squared_error(y_true, y_pred):
@@ -43,6 +40,16 @@ def rmse_original(y_true, y_pred):
     return np.sqrt(mean_squared_error(y_true_exp, y_pred_exp))
 
 rmse_scorer = make_scorer(rmse_original, greater_is_better=False)
+
+model_counts = car['model'].value_counts()
+car['model_grouped'] = car['model'].apply(lambda x: x if model_counts[x] >= 10 else 'Other')
+
+top_models = car['model_grouped'].value_counts().head(10)
+car['brand'].value_counts().head(10)
+car['fuel_type'].value_counts(dropna=False)
+
+
+
 
 # Separate target
 car_labels = car['price'].copy()
@@ -65,7 +72,8 @@ for col in ['ext_col', 'int_col', 'brand', 'fuel_type', 'transmission', 'model_g
     value_counts = car[col].value_counts()
     car[col] = car[col].apply(lambda x: x if value_counts[x] >= 50 else 'Other')
 
-# Extract horsepower and liters with improved imputation
+
+# Feature Engineering -- Extract horsepower and liters with improved imputation
 car['horsepower'] = car['engine'].str.extract(r'(\d+\.?\d*)\s*HP').astype(float)
 car['liters'] = car['engine'].str.extract(r'(\d+\.?\d*)\s*L').astype(float)
 # Check for NaN values after extraction
@@ -85,7 +93,14 @@ car['liters'] = car['liters'].fillna(overall_liters_median)
 print("NaN values in horsepower after imputation:", car['horsepower'].isnull().sum())
 print("NaN values in liters after imputation:", car['liters'].isnull().sum())
 
+# Car age
+car['car_age'] = 2025 - car['model_year']
+# Log transform milage
+car['log_milage'] = np.log(car['milage'] + 1)
 
+car = car.drop(['model_year', 'model', 'engine', 'milage'], axis=1)
+
+# Encode Categorical Features
 cat_columns = ['brand', 'fuel_type', 'transmission', 'ext_col', 'int_col', 'accident', 'clean_title', 'model_grouped']
 cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
 car_cat_encoded = pd.DataFrame(cat_encoder.fit_transform(car[cat_columns]),
@@ -129,19 +144,19 @@ print(car.isnull().sum().sum())
 X_train, X_test, y_train, y_test = train_test_split(car, car_labels_log, test_size=0.2, random_state=42)
 print("Training set shape:", X_train.shape, "Test set shape:", X_test.shape)
 
-# lin_reg = LinearRegression()
-# lin_reg.fit(X_train, y_train)
+lin_reg = LinearRegression()
+lin_reg.fit(X_train, y_train)
 
-# y_pred_lin = lin_reg.predict(X_test)
-# y_test_exp = np.expm1(y_test)
+y_pred_lin = lin_reg.predict(X_test)
+y_test_exp = np.expm1(y_test)
 
-# y_pred_lin_exp = np.expm1(y_pred_lin)
-# lin_rmse = root_mean_squared_error(y_test_exp, y_pred_lin_exp)
-# print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
+y_pred_lin_exp = np.expm1(y_pred_lin)
+lin_rmse = root_mean_squared_error(y_test_exp, y_pred_lin_exp)
+print("Linear Regression RMSE on test set (original price scale):", lin_rmse)
 
-# lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
-# print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
-# pd.Series(lin_rmses).describe()
+lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=5)
+print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
+pd.Series(lin_rmses).describe()
 
 # Plot for Linear Regression
 # plt.figure(figsize=(10, 6))
