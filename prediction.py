@@ -15,10 +15,12 @@ from scipy.stats import randint
 import pandas as pd
 import numpy as np
 
-car = pd.read_csv(r'C:\Users\dwade\Downloads\used_cars.csv')
+from config import usedcar
+
+car = pd.read_csv(usedcar)
 
 print(car.info())
-print(car.shape)
+print(car.shape) 
 
 print(car.head())
 
@@ -26,7 +28,7 @@ print(car.isnull().sum())
 print(car.describe())
 
 # Clean 'price' and 'milage' columns
-car['price'] = car['price'].str.replace('$', '').str.replace(',', '').astype(int)
+car['price'] = car['price'].str.replace('$', '').str.replace(',', '').astype(int) # $9,000 -> 9000 
 car['milage'] = car['milage'].str.replace(' mi.', '').str.replace(',', '').astype(int)
 
 # Custom RMSE function
