@@ -5,7 +5,7 @@ def transfer_stock_data(request):
     import pandas as pd
     from config import eid, pathBigQuery, conn
     import decimal
-    import pyodbc
+    #import pyodbc
 
     cursor = conn.cursor()
 
