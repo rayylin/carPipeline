@@ -8,7 +8,7 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.impute import SimpleImputer
-#cfrom xgboost import XGBRegressor
+from xgboost import XGBRegressor
 # import matplotlib.pyplot as plt
 from scipy.stats import randint
 # import seaborn as sns
@@ -185,3 +185,19 @@ print("Tuned Random Forest RMSE on test set (original price scale):", rf_rmse)
 rf_rmses = -cross_val_score(best_rf_model, X_train, y_train, scoring=rmse_scorer, cv=5)
 print("Tuned Random Forest Cross-Validated RMSE (original price scale):", -np.mean(rf_rmses))
 pd.Series(rf_rmses).describe()
+
+
+# XGBoost
+param_dist_xgb = {'n_estimators': randint(100, 500), 'max_depth': [3, 6, 9], 'learning_rate': [0.001, 0.01, 0.1, 0.3, 0.5]}
+xgb_random = RandomizedSearchCV(XGBRegressor(random_state=42), param_dist_xgb, n_iter=10, cv=5, scoring=rmse_scorer, random_state=42)
+xgb_random.fit(X_train, y_train)
+
+xgb_model = xgb_random.best_estimator_
+y_pred_xgb = xgb_model.predict(X_test)
+y_pred_xgb_exp = np.expm1(y_pred_xgb)
+xgb_rmse = root_mean_squared_error(y_test_exp, y_pred_xgb_exp)
+print("XGBoost RMSE on test set (original price scale):", xgb_rmse)
+
+xgb_rmses = -cross_val_score(xgb_model, X_train, y_train, scoring=rmse_scorer, cv=5)
+print("XGBoost Cross-Validated RMSE (original price scale):", -np.mean(xgb_rmses))
+pd.Series(xgb_rmses).describe()
