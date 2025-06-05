@@ -12,7 +12,7 @@ client = bigquery.Client()
 
 # Your query
 query = """
-    SELECT * FROM carpipe.car_data.car
+    SELECT * FROM carpipe.stockPrice.stockPrice
     LIMIT 10
 """
 
