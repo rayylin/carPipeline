@@ -6,7 +6,37 @@ from sqlScript import insertStock, selectStock
 
 cursor = conn.cursor()
 
-#cursor.execute(insertStock, ('AAPL', '2025-11-05', 198.53, 198.53, 198.53, 198.53))
+
+# SELECT TOP (1000) [car_ID]
+#       ,[symboling]
+#       ,[CarName]
+#       ,[fueltype]
+#       ,[aspiration]
+#       ,[doornumber]
+#       ,[carbody]
+#       ,[drivewheel]
+#       ,[enginelocation]
+#       ,[wheelbase]
+#       ,[carlength]
+#       ,[carwidth]
+#       ,[carheight]
+#       ,[curbweight]
+#       ,[enginetype]
+#       ,[cylindernumber]
+#       ,[enginesize]
+#       ,[fuelsystem]
+#       ,[boreratio]
+#       ,[stroke]
+#       ,[compressionratio]
+#       ,[horsepower]
+#       ,[peakrpm]
+#       ,[citympg]
+#       ,[highwaympg]
+#       ,[price]
+#   FROM [testdb1].[dbo].[Cars]
+
+
+
 
 cursor.execute("select top (12) * from [testdb1].[dbo].[Cars]")
 
