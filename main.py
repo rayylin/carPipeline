@@ -33,9 +33,6 @@ def transfer_stock_data(request):
     df_new = pd.DataFrame.from_records(rows, columns=columns)
 
 
-    # Step 3: Upload new data to BigQuery
-
-
     # Sanitize DataFrame for BigQuery
     for col in df_new.columns:
         if df_new[col].apply(lambda x: isinstance(x, decimal.Decimal)).any():
