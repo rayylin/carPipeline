@@ -160,18 +160,9 @@ lin_rmses = -cross_val_score(lin_reg, X_train, y_train, scoring=rmse_scorer, cv=
 print("Linear Regression Cross-Validated RMSE (original price scale):", -np.mean(lin_rmses))
 pd.Series(lin_rmses).describe()
 
-# Plot for Linear Regression
-# plt.figure(figsize=(10, 6))
-# plt.scatter(y_test_exp, y_pred_lin_exp, alpha=0.5)
-# plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--', lw=2)
-# plt.xlabel('Actual Price')
-# plt.ylabel('Predicted Price')
-# plt.title('Actual vs. Predicted Prices (Linear Regression)')
-# plt.show()
-# Insight: The plot shows that the Linear Regression model underestimates high actual prices and has significant prediction errors,indicating
-# it may not capture complex patterns in the data well.
 
 
+# Random Forest
 param_dist_rf = {'n_estimators': randint(100, 500), 'max_depth': [None, 10, 20, 30], 'min_samples_split': randint(2, 10)}
 rf_random = RandomizedSearchCV(RandomForestRegressor(random_state=42), param_dist_rf, n_iter=10, cv=5, scoring=rmse_scorer, random_state=42)
 rf_random.fit(X_train, y_train)
@@ -201,3 +192,29 @@ print("XGBoost RMSE on test set (original price scale):", xgb_rmse)
 xgb_rmses = -cross_val_score(xgb_model, X_train, y_train, scoring=rmse_scorer, cv=5)
 print("XGBoost Cross-Validated RMSE (original price scale):", -np.mean(xgb_rmses))
 pd.Series(xgb_rmses).describe()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Plot for Linear Regression
+# plt.figure(figsize=(10, 6))
+# plt.scatter(y_test_exp, y_pred_lin_exp, alpha=0.5)
+# plt.plot([y_test_exp.min(), y_test_exp.max()], [y_test_exp.min(), y_test_exp.max()], 'r--', lw=2)
+# plt.xlabel('Actual Price')
+# plt.ylabel('Predicted Price')
+# plt.title('Actual vs. Predicted Prices (Linear Regression)')
+# plt.show()
+# Insight: The plot shows that the Linear Regression model underestimates high actual prices and has significant prediction errors,indicating
+# it may not capture complex patterns in the data well.
