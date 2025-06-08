@@ -17,14 +17,14 @@ def transfer_stock_data(request):
 
 
     # Step 1: Get latest date from BigQuery
-    query = "SELECT MAX(date) as max_date FROM `carpipe.stockPrice.stockPrice`"
+    query = "SELECT MAX(date) as max_date FROM `ccarpipe.car_data.car`"
     latest_date = client.query(query).result().to_dataframe().iloc[0]['max_date']
 
     print(latest_date)
 
 
     # Step 2: Query SQL Server
-    query_sql = "SELECT * FROM [financeDb].[dbo].[stock] WHERE [date] > ? "
+    query_sql = "SELECT * FROM [testdb1].[dbo].[Cars] WHERE [date] > ? "
     cursor.execute(query_sql, latest_date)
     rows = cursor.fetchall()
 
