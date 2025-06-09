@@ -46,3 +46,7 @@ def transfer_stock_data(request):
 
 
     return "Transfer complete", 200
+
+
+def hello_world(request):
+    return "Hello, World!", 200
