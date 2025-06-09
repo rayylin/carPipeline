@@ -1,5 +1,5 @@
 
-def transfer_stock_data(request):
+def transfer_car_data(request):
     import os
     from google.cloud import bigquery
     import pandas as pd
@@ -48,5 +48,5 @@ def transfer_stock_data(request):
     return "Transfer complete", 200
 
 
-def hello_world(request):
-    return "Hello, World!", 200
+# def hello_world(request):
+#     return "Hello, World!", 200
