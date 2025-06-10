@@ -10,5 +10,5 @@
 # Looker for BI visualization
 ![image](https://github.com/user-attachments/assets/08c1eeaa-bae2-4481-93f5-843b0367950c)
 
-# Price Prediction with Linear Regression, Random Forest, XGBoost
+# Price Prediction with Linear Regression, Random Forest, and XGBoost
 ![image](https://github.com/user-attachments/assets/f39b12bf-1051-4229-b101-d0d5b5c8f6df)
