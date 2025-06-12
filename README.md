@@ -13,5 +13,5 @@
 # Price Prediction with Linear Regression, Random Forest, and XGBoost
 ![image](https://github.com/user-attachments/assets/f39b12bf-1051-4229-b101-d0d5b5c8f6df)
 
-# Move data from sql to bigquery 
+# Move data from sql to bigquery periodically
 ![image](https://github.com/user-attachments/assets/93bf2d73-1178-4197-b7e0-750fbfb26e65)
