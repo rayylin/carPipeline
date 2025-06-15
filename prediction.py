@@ -195,7 +195,12 @@ pd.Series(xgb_rmses).describe()
 
 
 
-
+summary = pd.DataFrame({
+    'Model': ['Linear Regression', 'Tuned Random Forest', 'XGBoost'],
+    'Test RMSE': [lin_rmse, rf_rmse, xgb_rmse],
+    'CV RMSE': [-np.mean(lin_rmses), -np.mean(rf_rmses), -np.mean(xgb_rmses)]
+})
+print(summary)
 
 
 
