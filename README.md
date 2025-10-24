@@ -7,7 +7,7 @@
 # Google Cloud Storage for pictures 
 ![image](https://github.com/user-attachments/assets/db902835-8bbf-49da-b228-a19ee1d8c5e6)
 
-# Looker for BI visualization
+# Looker for data visualization
 ![image](https://github.com/user-attachments/assets/08c1eeaa-bae2-4481-93f5-843b0367950c)
 
 # Price Prediction with Linear Regression, Random Forest, and XGBoost
